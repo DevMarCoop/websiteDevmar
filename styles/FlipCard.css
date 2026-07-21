@@ -1,0 +1,71 @@
+
+:root {
+    --color-primary: #1B2A41; 
+    --color-secondary: #E31B23; 
+    --color-text-light: #ffffff; 
+}
+
+
+.flip-card-container {
+    perspective: 1000px;
+    height: 250px;
+    cursor: pointer;
+    z-index: 10;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.benefit-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-style: preserve-3d; 
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+/* Mobile: desabilita hover - apenas clique funciona */
+@media (hover: none) and (pointer: coarse) {
+    .flip-card-container:hover .benefit-card {
+        transform: none !important;
+    }
+}
+
+/* Desktop: hover para flip */
+@media (hover: hover) and (pointer: fine) {
+    .flip-card-container:hover .benefit-card {
+        transform: rotateY(180deg);
+    }
+}
+
+/* Classe flipped funciona sempre (mobile e desktop quando clicado) */
+.flip-card-container.flipped .benefit-card {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   
+    border-radius: 12px;
+    padding: 30px; 
+}
+
+.card-front {
+    background-color: #ffffff;
+
+}
+
+.card-back {
+    background-color: var(--color-secondary);
+    color: var(--color-text-light);
+    transform: rotateY(180deg);
+}

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DevMar - Tecnologia e Inovação</title>
+    <meta name="description" content="Cooperativa de tecnologia focada em desenvolvimento de software, design e inovação." />
+    
+    <!-- Google Fonts: Space Grotesk (Headings) and Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;500;600;700&family=Outfit:wght@500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/fav-icon.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Space Grotesk', 'sans-serif'],
+              outfit: ['Outfit', 'sans-serif'],
+              manrope: ['Manrope', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                blue: '#1B2A41',    // Azul Principal (Dark Navy)
+                red: '#E31B23',     // Vermelho Principal
+                slate: '#6C7579',   // Azul Claro/Cinza (Secondary provided hex)
+                light: '#FFFFFF',   // Neutro
+                bg: '#f2f4f7',      // Background Lighter
+                // Generated States
+                'red-hover': '#C4161D',
+                'blue-hover': '#131E2F',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #F8FAFC;
+        color: #6C7579;
+      }
+
+      /* Dark mode base */
+      .dark body {
+        background-color: #0b1220;
+        color: #94a3b8;
+      }
+
+      /* Dark mode overrides for common Tailwind utility colors used in the project */
+      .dark .bg-brand-bg { background-color: #0b1220; }
+      .dark .bg-white { background-color: #0f172a; }
+      .dark .text-brand-blue { color: #e5e7eb; }
+      .dark .text-brand-slate { color: #94a3b8; }
+      .dark .border-brand-slate\/10 { border-color: rgba(148, 163, 184, 0.2); }
+      .dark .border-brand-slate\/20 { border-color: rgba(148, 163, 184, 0.25); }
+      .dark .bg-brand-light\/95 { background-color: rgba(15, 23, 42, 0.95); }
+      .dark .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.35), 0 4px 6px -4px rgba(0,0,0,0.35) !important; }
+
+      /* Ensure Tailwind focus:bg-white doesn't turn inputs truly white in dark mode */
+      .dark .focus\:bg-white:focus {
+        background-color: #0f172a !important;
+      }
+      .dark .focus-within\:bg-white:focus-within {
+        background-color: #0f172a !important;
+      }
+      
+      /* Custom styles for react-phone-input-2 */
+      .phone-input-container {
+        width: 100%;
+        position: relative;
+        border: 1px solid rgba(108, 117, 121, 0.2);
+        border-radius: 0.5rem;
+        background-color: #f2f4f7;
+        transition: all 0.2s;
+        overflow: visible;
+        min-height: 48px;
+      }
+
+      /* Dark mode - react-phone-input-2 */
+      .dark .phone-input-container {
+        /* match bg-brand-bg in dark */
+        background-color: #0b1220;
+        border-color: rgba(148, 163, 184, 0.25);
+      }
+      
+      .phone-input-container:focus-within {
+        border-color: #E31B23;
+        background-color: white;
+        box-shadow: 0 0 0 2px rgba(227, 27, 35, 0.2);
+      }
+
+      .dark .phone-input-container:focus-within {
+        /* keep focus consistent with other fields in dark mode */
+        border-color: rgba(229, 231, 235, 0.25);
+        background-color: #0f172a;
+        box-shadow: 0 0 0 2px rgba(227, 27, 35, 0.25);
+      }
+      
+      .phone-input-container .phone-input-button {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background-color: transparent;
+        border: none;
+        border-right: 1px solid rgba(108, 117, 121, 0.2);
+        border-radius: 0.5rem 0 0 0.5rem;
+        padding: 0.75rem 0.5rem;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 60px;
+        max-width: 60px;
+        flex-shrink: 0;
+        box-sizing: border-box;
+      }
+
+      .dark .phone-input-container .phone-input-button {
+        border-right-color: rgba(148, 163, 184, 0.25);
+      }
+
+      /* react-phone-input-2 internal elements (flag area) */
+      .phone-input-container .flag-dropdown,
+      .phone-input-container .selected-flag {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      .phone-input-container .selected-flag:hover,
+      .phone-input-container .flag-dropdown.open,
+      .phone-input-container .flag-dropdown:hover {
+        background: rgba(0, 0, 0, 0.02) !important;
+      }
+
+      .dark .phone-input-container .flag-dropdown,
+      .dark .phone-input-container .selected-flag {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      .dark .phone-input-container .selected-flag:hover,
+      .dark .phone-input-container .flag-dropdown.open,
+      .dark .phone-input-container .flag-dropdown:hover {
+        background: rgba(148, 163, 184, 0.12) !important;
+      }
+
+      /* arrow color in dark */
+      .dark .phone-input-container .selected-flag .arrow {
+        border-top-color: #e5e7eb !important;
+      }
+
+      .dark .phone-input-container .selected-flag .arrow.up {
+        border-bottom-color: #e5e7eb !important;
+      }
+      
+      .phone-input-container:focus-within .phone-input-button {
+        border-right-color: rgba(108, 117, 121, 0.2);
+      }
+      
+      .phone-input-container .phone-input-button:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+      
+      .phone-input-container input {
+        border: none !important;
+        padding: 0.75rem !important;
+        padding-left: calc(60px + 0.75rem) !important;
+        border-radius: 0.5rem !important;
+        background-color: transparent !important;
+        min-width: 0;
+        width: 100%;
+        height: 48px !important;
+        line-height: 24px !important;
+        font-size: 16px !important;
+        box-sizing: border-box;
+      }
+
+      .dark .phone-input-container input {
+        color: #e5e7eb !important;
+      }
+      
+      .phone-input-container input:focus {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+      }
+      
+      .phone-input-dropdown {
+        border: 1px solid rgba(108, 117, 121, 0.2);
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        max-height: 300px;
+        overflow-y: auto;
+        /* ensure dropdown opens below and stays above other inputs */
+        top: calc(100% + 6px) !important;
+        left: 0 !important;
+        z-index: 9999 !important;
+      }
+
+      .dark .phone-input-dropdown {
+        background-color: #0f172a;
+        border-color: rgba(148, 163, 184, 0.25);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.35), 0 4px 6px -4px rgba(0,0,0,0.35);
+      }
+      
+      .phone-input-dropdown .country-list {
+        background-color: white;
+      }
+
+      .dark .phone-input-dropdown .country-list {
+        background-color: #0f172a;
+      }
+      
+      .phone-input-dropdown .country-list .country {
+        padding: 0.5rem 1rem;
+        color: #1B2A41;
+      }
+
+      .dark .phone-input-dropdown .country-list .country {
+        color: #e5e7eb;
+      }
+      
+      .phone-input-dropdown .country-list .country:hover {
+        background-color: #f2f4f7;
+      }
+
+      .dark .phone-input-dropdown .country-list .country:hover {
+        background-color: rgba(148, 163, 184, 0.12);
+      }
+      
+      .phone-input-dropdown .country-list .country.highlight {
+        background-color: #f2f4f7;
+      }
+
+      .dark .phone-input-dropdown .country-list .country.highlight {
+        background-color: rgba(148, 163, 184, 0.12);
+      }
+      
+      /* Fix placeholder color consistency */
+      input::placeholder,
+      textarea::placeholder {
+        color: #9CA3AF;
+        opacity: 1;
+      }
+
+      /* Fix browser autofill background in dark mode (Chrome/Safari) */
+      .dark input:-webkit-autofill,
+      .dark input:-webkit-autofill:hover,
+      .dark input:-webkit-autofill:focus,
+      .dark input:-webkit-autofill:active,
+      .dark textarea:-webkit-autofill,
+      .dark textarea:-webkit-autofill:hover,
+      .dark textarea:-webkit-autofill:focus,
+      .dark textarea:-webkit-autofill:active,
+      .dark select:-webkit-autofill,
+      .dark select:-webkit-autofill:hover,
+      .dark select:-webkit-autofill:focus,
+      .dark select:-webkit-autofill:active {
+        -webkit-text-fill-color: #e5e7eb !important;
+        caret-color: #e5e7eb !important;
+        background-color: #0b1220 !important;
+        box-shadow: 0 0 0px 1000px #0b1220 inset !important;
+        -webkit-box-shadow: 0 0 0px 1000px #0b1220 inset !important;
+        transition: background-color 9999s ease-in-out 0s;
+      }
+
+      /* Fix browser autofill background in dark mode (Firefox) */
+      .dark input:-moz-autofill,
+      .dark textarea:-moz-autofill,
+      .dark select:-moz-autofill {
+        color: #e5e7eb !important;
+        caret-color: #e5e7eb !important;
+        background-color: #0b1220 !important;
+        box-shadow: 0 0 0px 1000px #0b1220 inset !important;
+      }
+    </style>
+
+    <script>
+      // Apply theme ASAP to avoid flash
+      (function () {
+        try {
+          var saved = localStorage.getItem('devmar-theme');
+          var theme = (saved === 'light' || saved === 'dark')
+            ? saved
+            : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          if (theme === 'dark') document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.10.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+  <script>
+    // Garante que a página sempre comece no topo ao recarregar
+    window.addEventListener('beforeunload', function() {
+      window.scrollTo(0, 0);
+    });
+    
+    // Também rola para o topo quando a página carrega
+    window.addEventListener('load', function() {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    });
+    
+    // Executa imediatamente se a página já estiver carregada
+    if (document.readyState === 'complete') {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    } else {
+      document.addEventListener('DOMContentLoaded', function() {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      });
+    }
+  </script>
+</body>
+</html>
