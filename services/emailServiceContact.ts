@@ -19,7 +19,7 @@ export const sendContactEmail = async (data: ContactEmailParams): Promise<void> 
       EMAILJS_CONFIG.SERVICE_ID,
       EMAILJS_CONFIG.TEMPLATES.CONTACT,
       templateParams,
-      EMAILJS_CONFIG.PUBLIC_KEY
+      { publicKey: EMAILJS_CONFIG.PUBLIC_KEY }
     );
     console.log('Email enviado com sucesso!');
   } catch (error) {

@@ -21,7 +21,7 @@ export const sendQuoteEmail = async (formElement: HTMLFormElement): Promise<void
       EMAILJS_CONFIG.SERVICE_ID,
       EMAILJS_CONFIG.TEMPLATES.QUOTE,
       formElement,
-      EMAILJS_CONFIG.PUBLIC_KEY
+      { publicKey: EMAILJS_CONFIG.PUBLIC_KEY }
     );
     console.log('Solicitação de orçamento enviada com sucesso!');
   } catch (error) {
